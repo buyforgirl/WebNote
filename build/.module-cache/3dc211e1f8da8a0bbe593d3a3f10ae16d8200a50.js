@@ -6,7 +6,7 @@
  			this.setState({editing: true});
  		},
  		save: function() {
- 			this.props.onChange(this.refs.newText.getDOMNode().value, this.props.index);	
+ 			this.props.onChange(this.refs.newText.getDOMNode().value, this,props.index);	
  			this.setState({editing: false});
  		},
  		remove: function() {
@@ -67,7 +67,7 @@ var Board = React.createClass({displayName: "Board",
 		this.setState({notes: arr});
 	},
 	remove: function(i) {
-		var arr = this.state.notes;
+		var arr = this.notes.notes;
 		arr.splice(i, 1);
 		this.setState({notes: arr});
 	},

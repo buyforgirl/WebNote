@@ -1,4 +1,4 @@
- var Note = React.createClass({
+ var Note = React.createClass({displayName: "Note",
  		getInitialState: function() {
  			return {editing: false}
  		},
@@ -6,7 +6,7 @@
  			this.setState({editing: true});
  		},
  		save: function() {
- 			this.props.onChange(this.refs.newText.getDOMNode().value, this.props.index);	
+ 			this.props.onChange(this.refs.newText.getDOMNode().value, this,props.index);	
  			this.setState({editing: false});
  		},
  		remove: function() {
@@ -14,21 +14,21 @@
  		},
  		renderDisplay: function() {
  			return (
- 				<div className="note">
-                	<p>{this.props.children}</p>
-                	<span>
-                		<button onClick={this.edit} className="btn btn-primary glyphicon glyphicon-pencil"/>
-                		<button onClick={this.remove} className="btn btn-danger glyphicon glyphicon-trash"/>
-                	</span>
-                </div>
+ 				React.createElement("div", {className: "note"}, 
+                	React.createElement("p", null, this.props.children), 
+                	React.createElement("span", null, 
+                		React.createElement("button", {onClick: this.edit, className: "btn btn-primary glyphicon glyphicon-pencil"}), 
+                		React.createElement("button", {onClick: this.remove, className: "btn btn-danger glyphicon glyphicon-trash"})
+                	)
+                )
  				)
  		},
  		renderForm: function() {
  			return (
- 				<div className="note">
- 					<textarea ref="newText" defaultValue={this.props.children} className="form-control"></textarea>
- 					<button onClick={this.save} className="btn btn-success btn-sm glyphicon glyphicon-floppy-disk"/>
- 				</div>
+ 				React.createElement("div", {className: "note"}, 
+ 					React.createElement("textarea", {ref: "newText", defaultValue: this.props.children, className: "form-control"}), 
+ 					React.createElement("button", {onClick: this.save, className: "btn btn-success btn-sm glyphicon glyphicon-floppy-disk"})
+ 				)
  				)
  		},
         render: function() {
@@ -40,7 +40,7 @@
     	}
 });
 
-var Board = React.createClass({
+var Board = React.createClass({displayName: "Board",
 	propTypes: {
 		count: function(props, propName) {
 			if (typeof props[propName] !== 'number') {
@@ -73,14 +73,14 @@ var Board = React.createClass({
 	},
 	eachNote: function(note, i) {
 		return (
-				<Note key={i} index={i} onChange={this.update} onRemove={this.remove}>{note}</Note>
+				React.createElement(Note, {key: i, index: i, onChange: this.update, onRemove: this.remove}, note)
 			);
 	},
 	render: function() {
-		return <div className="board">{this.state.notes.map(this.eachNote)}
-		</div>
+		return React.createElement("div", {className: "board"}, this.state.notes.map(this.eachNote)
+		)
 	}
 
 });
 
-React.render(<Board count={10}/>, document.getElementById('react-container'));
+React.render(React.createElement(Board, {count: 10}), document.getElementById('react-container'));
