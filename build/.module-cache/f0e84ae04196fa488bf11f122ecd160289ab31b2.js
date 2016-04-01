@@ -52,23 +52,8 @@ var Board = React.createClass({displayName: "Board",
 			}
 		}
 	},
-	getInitialState: function() {
-		 return {
-		 	notes: [
-		 		'Call Yuxi',
-		 		'Email Lisa',
-		 		'zou pi gu',
-		 		'send mail'
-		 	]
-		 }
-	},
 	render: function() {
-		return React.createElement("div", {className: "board"}, this.state.notes.map(function(note, i){
-			return (
-					React.createElement(Note, {key: i}, note)
-				)
-		})
-		)
+		return React.createElement("div", {className: "board"}, this.props.count)
 	}
 
 });
