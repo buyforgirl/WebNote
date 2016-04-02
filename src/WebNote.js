@@ -2,6 +2,16 @@
  		getInitialState: function() {
  			return {editing: false}
  		},
+ 		randomBetween: function(min, max) {
+ 			return (min + Math.ceil(Math.random() * max));
+ 		},
+ 		componentWillMount: function() {
+ 			this.style = {
+ 				right: this.randomBetween(0, window.innerWidth - 150) + 'px',
+ 				top: this.randomBetween(0, window.innerHeight - 150) + 'px',
+ 				transform: 'rotate(' + this.randomBetween(-15, 15) + 'deg)'
+ 			}
+ 		},
  		edit: function() {
  			this.setState({editing: true});
  		},
@@ -14,7 +24,7 @@
  		},
  		renderDisplay: function() {
  			return (
- 				<div className="note">
+ 				<div className="note" style={this.style}>
                 	<p>{this.props.children}</p>
                 	<span>
                 		<button onClick={this.edit} className="btn btn-primary glyphicon glyphicon-pencil"/>
@@ -25,7 +35,7 @@
  		},
  		renderForm: function() {
  			return (
- 				<div className="note">
+ 				<div className="note" style={this.style}>
  					<textarea ref="newText" defaultValue={this.props.children} className="form-control"></textarea>
  					<button onClick={this.save} className="btn btn-success btn-sm glyphicon glyphicon-floppy-disk"/>
  				</div>
@@ -56,14 +66,21 @@ var Board = React.createClass({
 		 	notes: []
 		 }
 	},
+	nextId: function() {
+		this.uniqueId = this.uniqueId || 0;
+		return this.uniqueId++;
+	},
 	add: function(text) {
 		var arr = this.state.notes;
-		arr.push(text);
+		arr.push({
+			id: this.nextId(),
+			note: text
+		});
 		this.setState({notes: arr});
 	},
 	update: function(newText, i) {
 		var arr = this.state.notes;
-		arr[i] = newText;
+		arr[i].note = newText;
 		this.setState({notes: arr});
 	},
 	remove: function(i) {
@@ -73,7 +90,7 @@ var Board = React.createClass({
 	},
 	eachNote: function(note, i) {
 		return (
-				<Note key={i} index={i} onChange={this.update} onRemove={this.remove}>{note}</Note>
+				<Note key={note.id} index={i} onChange={this.update} onRemove={this.remove}>{note.note}</Note>
 			);
 	},
 	render: function() {
