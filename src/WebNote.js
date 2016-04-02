@@ -3,7 +3,7 @@
  			return {editing: false}
  		},
  		randomBetween: function(min, max) {
- 			return (min + Math.ceil(Math.random() * max));
+ 			return (min + Math.ceil(Math.random() * (max - min)));
  		},
  		componentWillMount: function() {
  			this.style = {
@@ -11,6 +11,9 @@
  				top: this.randomBetween(0, window.innerHeight - 150) + 'px',
  				transform: 'rotate(' + this.randomBetween(-15, 15) + 'deg)'
  			}
+ 		},
+ 		componentDidMount: function() {
+ 			$(this.getDOMNode()).draggable();
  		},
  		edit: function() {
  			this.setState({editing: true});

@@ -12,9 +12,6 @@
  				transform: 'rotate(' + this.randomBetween(-15, 15) + 'deg)'
  			}
  		},
- 		componentDidMount: function() {
- 			$(this.getDOMNode()).draggable();
- 		},
  		edit: function() {
  			this.setState({editing: true});
  		},
